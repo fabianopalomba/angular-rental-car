@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular-rental-car"
+    }
+  },
+  "defaultProject": "angular-rental-car",
+  "cli": {
+    "analytics": false
+  }
 }
