@@ -1,1 +1,14 @@
-<p>my-table works!</p>
+<input type="text" (keyup)="applyFilter($event)" placeholder="Cerca">
+<table matSort (matSortChange)="sortData($event)" >
+  <thead>
+  <tr>
+    <th *ngFor="let a of tableConfig.headers" [mat-sort-header]="a.key">{{a.label.toUpperCase()}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let sortedData of sortedDatas">
+    <td *ngFor="let key of keys">{{sortedData[key]}}</td>
+  </tr>
+  </tbody>
+</table>
+

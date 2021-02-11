@@ -1,1 +1,5 @@
-<p>my-button works!</p>
+<button type="button" [style]="buttonConfig.customCssClass">
+  <i [ngClass]="buttonConfig.icon"></i>
+  {{buttonConfig.text}}
+</button>
+
