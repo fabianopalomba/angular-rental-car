@@ -8,7 +8,6 @@
 
   <table mat-table [dataSource]="tableDataSource" matSort (matSortChange)="sortTable($event)" [matSortActive]="tableConfig.order.defaultColumn" [matSortDirection]="tableConfig.order.orderType">
     <ng-container *ngFor="let tableColumn of tableConfig.headers" [matColumnDef]="tableColumn.key">
-
         <th mat-header-cell *matHeaderCellDef [mat-sort-header]="tableColumn.key">
           {{tableColumn.label}}
         </th>

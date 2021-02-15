@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     'orderType' : 'asc'
   }
   search: MySearch = {
-    'columns' : ['surname']
+    'columns' : ['surname', 'name']
   }
   pagination: MyPagination = {
     'itemPerPage' : 5,

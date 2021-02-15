@@ -93,8 +93,6 @@ export class MyTableComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.tableDataSource.filter = this.filterValue.trim().toLowerCase();
-
-
   }
 
   sortTable(sortParameters: Sort) {
@@ -103,10 +101,13 @@ export class MyTableComponent implements OnInit, AfterViewInit {
   }
 
   myFilterPredicate = (data, filter: string): boolean => {
+    let bool = false;
     if (this.tableConfig.search.columns.length != 0) {
-      this.tableConfig.search.columns.forEach(columno => {
-        return data[columno].toString().trim().includes(this.filterValue);
-      })
+      for (let columno of this.tableConfig.search.columns){
+        if (data[columno].toLowerCase().includes(filter))
+        bool = true;
+      }
+      return bool;
     }
     else return true;
   }
