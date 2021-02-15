@@ -28,17 +28,17 @@ export class HomeComponent implements OnInit {
     'icon' : null
   }
 
-  data: User[] = [new User("fab", "palo", "fegh", new Date(1995, 3,6),1), new User("gab", "balo", "legh", new Date(1995,4,7), 2)];
+  data: User[] = [new User("fab", "palo", "fegh", new Date(1995, 3,6),3), new User("gab", "balo", "legh", new Date(1995,4,7), 2)];
 
   headers: MyHeaders[] = [new MyHeaders("name", "name"), new MyHeaders("surname", "surname"),
                           new MyHeaders("username", "username"), new MyHeaders("birthday", "birthday"), new MyHeaders("id", "id")]
 
   order: MyOrder = {
-    'defaultColumn' : 'name',
+    'defaultColumn' : 'surname',
     'orderType' : 'asc'
   }
   search: MySearch = {
-    'columns' : ['name']
+    'columns' : ['surname']
   }
   pagination: MyPagination = {
     'itemPerPage' : 5,

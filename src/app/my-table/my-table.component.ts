@@ -1,5 +1,24 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {Sort} from '@angular/material/sort';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {Pipe, PipeTransform} from '@angular/core';
+import {DatePipe} from '@angular/common';
+
+// noinspection AngularMissingOrInvalidDeclarationInModule
+@Pipe({
+  name: 'dataPropertyGetter'
+})
+export class DataPropertyGetterPipe implements PipeTransform {
+
+  transform(object: any, keyName: string, ...args: unknown[]): unknown {
+    if (object[keyName] instanceof Date) return object[keyName].toLocaleDateString()
+    else return object[keyName];
+  }
+
+}
 
 export class MyTableConfig {
   headers: MyHeaders [];
@@ -42,53 +61,53 @@ export enum MyTableActionEnum {
   styleUrls: ['./my-table.component.css']
 })
 
-/*
-export class MyTableComponent implements OnChanges{
+export class MyTableComponent implements OnInit, AfterViewInit {
+  public tableDataSource = new MatTableDataSource([]);
+  public displayedColumns: string[];
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) matSort: MatSort;
   @Input() tableConfig: MyTableConfig;
-  @Input() data: any [];
-  keys: string[];
-  alldata: any[];
-  sortedDatas: any[];
+  @Output() sort: EventEmitter<Sort> = new EventEmitter();
+  filterValue: string;
+  @Input() set tableData(data: any[]) {this.setTableDataSource(data);}
 
-  sortData(sort: Sort){
-    const dates = this.data.slice();
-    if (!sort.active || sort.direction === ''){
-      this.sortedDatas = dates;
-      return;
+  constructor() {
+  }
+
+  ngOnInit(): void {
+    const columnNames = this.tableConfig.headers.map((tableColumn: MyHeaders) => tableColumn.label);
+    this.displayedColumns = columnNames;
+    this.tableDataSource.filterPredicate = this.myFilterPredicate;
+  }
+
+  ngAfterViewInit(): void {
+    this.tableDataSource.paginator = this.matPaginator;
+  }
+
+  setTableDataSource(data: any) {
+    this.tableDataSource = new MatTableDataSource<any>(data);
+    this.tableDataSource.paginator = this.matPaginator;
+    this.tableDataSource.sort = this.matSort;
+  }
+
+  applyFilter(event: Event) {
+    this.filterValue = (event.target as HTMLInputElement).value;
+    this.tableDataSource.filter = this.filterValue.trim().toLowerCase();
+
+
+  }
+
+  sortTable(sortParameters: Sort) {
+    sortParameters.active = this.tableConfig.headers.find(column => column.key === sortParameters.active).key;
+    this.sort.emit(sortParameters);
+  }
+
+  myFilterPredicate = (data, filter: string): boolean => {
+    if (this.tableConfig.search.columns.length != 0) {
+      this.tableConfig.search.columns.forEach(columno => {
+        return data[columno].toString().trim().includes(this.filterValue);
+      })
     }
-    this.sortedDatas = dates.sort((a,b) =>{
-      const isAsc = sort.direction === 'asc';
-      if (sort.active){
-        console.log(a, b)
-        return compare(a.this.tableConfig.headers[this.tableConfig.headers.indexOf(this.tableConfig.headers.find(x=> x.key === sort.active))], b.this.tableConfig.headers[this.tableConfig.headers.indexOf(this.tableConfig.headers.find(x=> x.key === sort.active))], isAsc);
-      }
-    })
+    else return true;
   }
-
-  ngOnChanges() {
-    this.sortedDatas = this.data.slice();
-    this.keys = Object.keys((this.data[0]));
-  }
-
-  applyFilter(filterValue) {
-    let filterValueLower = filterValue.target.value.toLowerCase();
-    this.alldata = this.data;
-    if (filterValue === '') {
-    } else {
-      for (let a of this.tableConfig.search.columns) {
-
-      }
-      this.data = this.alldata.filter((key) => {
-        for (let a of this.tableConfig.search.columns) {
-          key.a.includes(filterValueLower)
-        }
-      });
-    }
-  }
-
 }
-function compare(a: number | string, b: number | string, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}
-
-*/
