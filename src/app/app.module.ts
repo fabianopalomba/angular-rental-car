@@ -14,6 +14,10 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatInputModule} from '@angular/material/input';
 import {DatePipe} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -21,20 +25,24 @@ import {DatePipe} from '@angular/common';
     MyButtonComponent,
     MyTableComponent,
     HomeComponent,
-    DataPropertyGetterPipe
+    DataPropertyGetterPipe,
+    DialogBoxComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MatSortModule,
-        MatFormFieldModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatInputModule,
-        FormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule
+  ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
 })

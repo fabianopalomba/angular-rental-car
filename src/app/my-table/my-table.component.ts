@@ -2,22 +2,20 @@ import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import {Pipe, PipeTransform} from '@angular/core';
-import {DatePipe} from '@angular/common';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogBoxComponent} from '../dialog-box/dialog-box.component';
+import {MatIconModule} from '@angular/material/icon';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
 @Pipe({
   name: 'dataPropertyGetter'
 })
 export class DataPropertyGetterPipe implements PipeTransform {
-
   transform(object: any, keyName: string, ...args: unknown[]): unknown {
     if (object[keyName] instanceof Date) return object[keyName].toLocaleDateString()
     else return object[keyName];
   }
-
 }
 
 export class MyTableConfig {
@@ -52,7 +50,7 @@ export class MyPagination {
 }
 
 export enum MyTableActionEnum {
-  NEW_ROW, EDIT, DELETE
+  NEW_ROW= 'NEWROW', EDIT='EDIT', DELETE='DELETE'
 }
 
 @Component({
@@ -64,20 +62,31 @@ export enum MyTableActionEnum {
 export class MyTableComponent implements OnInit, AfterViewInit {
   public tableDataSource = new MatTableDataSource([]);
   public displayedColumns: string[];
+  public filterValue: string;
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) matSort: MatSort;
   @Input() tableConfig: MyTableConfig;
   @Output() sort: EventEmitter<Sort> = new EventEmitter();
-  filterValue: string;
+  @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
   @Input() set tableData(data: any[]) {this.setTableDataSource(data);}
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
+  public newrow : MyTableActionEnum = MyTableActionEnum.NEW_ROW;
+  dato:any;
+  constructor(public dialog: MatDialog){}
+  ngOnInit(){
     const columnNames = this.tableConfig.headers.map((tableColumn: MyHeaders) => tableColumn.label);
-    this.displayedColumns = columnNames;
+    if (this.tableConfig.actions.length > 0){
+      this.displayedColumns = [...columnNames]
+      for (let action of this.tableConfig.actions) {
+        if (action!=this.newrow) this.displayedColumns.push(action)
+      }
+    }
+    else this.displayedColumns = columnNames;
     this.tableDataSource.filterPredicate = this.myFilterPredicate;
+    this.dato = Object.create(this.tableDataSource.filteredData[0]);
+    Object.keys(this.tableDataSource.filteredData[0]).map((key)=>{
+      this.dato[key] = "";
+    })
+    console.log(this.dato, this.tableDataSource.filteredData[0])
   }
 
   ngAfterViewInit(): void {
@@ -110,5 +119,18 @@ export class MyTableComponent implements OnInit, AfterViewInit {
       return bool;
     }
     else return true;
+  }
+  emitRowAction(action:string, row: any) {
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '250px',
+      data:{
+        dati: row,
+        action: action
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.rowAction.emit({data:result.data, event:result.event})
+      console.log(result)
+    });
   }
 }

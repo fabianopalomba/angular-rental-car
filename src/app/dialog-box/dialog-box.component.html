@@ -1,0 +1,18 @@
+<h1 mat-dialog-title><strong>{{action}} ROW</strong></h1>
+<form [formGroup]="form" (submit)="doAction()">
+<div mat-dialog-content *ngIf="action != 'DELETE'">
+    <mat-form-field *ngFor="let a of local_data | keyvalue">
+      <label>
+        <input [formControlName]="a.key" [placeholder]="action + ' ' + a.key" matInput [ngModel]="local_data[a.key]">
+      </label>
+    </mat-form-field>
+</div>
+<div mat-dialog-content>
+  <ng-template [ngIf]="action=='DELETE'">
+    Sure to delete?
+  </ng-template>
+</div>
+<div mat-dialog-actions>
+  <button mat-button type="submit">{{action}}</button>
+  <button mat-button type="reset" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div></form>
