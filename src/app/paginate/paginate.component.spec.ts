@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MyTableComponent } from './my-table.component';
+import { PaginateComponent } from './paginate.component';
 
-describe('MyTableComponent', () => {
-  let component: MyTableComponent;
-  let fixture: ComponentFixture<MyTableComponent>;
+describe('PaginateComponent', () => {
+  let component: PaginateComponent;
+  let fixture: ComponentFixture<PaginateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MyTableComponent ]
+      declarations: [ PaginateComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MyTableComponent);
+    fixture = TestBed.createComponent(PaginateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

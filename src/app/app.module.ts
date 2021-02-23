@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MyButtonComponent } from './my-button/my-button.component';
-import {DataPropertyGetterPipe, MyTableComponent} from './my-table/my-table.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,15 +17,22 @@ import {MatButtonModule} from '@angular/material/button';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
+import {MytablenotmaterialComponent, NgbdSortableHeader} from './mytablenotmaterial/mytablenotmaterial.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {PaginationPipe} from './paginate/pagination.pipe';
+import {PaginateComponent} from './paginate/paginate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MyButtonComponent,
-    MyTableComponent,
     HomeComponent,
-    DataPropertyGetterPipe,
-    DialogBoxComponent
+    DialogBoxComponent,
+    MytablenotmaterialComponent,
+    NgbdSortableHeader,
+    PaginationPipe,
+    PaginateComponent,
+    PaginateComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,8 @@ import {MatIconModule} from '@angular/material/icon';
     FormsModule,
     MatButtonModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    NgbModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

@@ -1,0 +1,24 @@
+<input placeholder="Search..." (keyup)="applyFilter($event)" />
+<button mat-button *ngIf="newrow==true" (click)="emitRowAction('ADD',dato)">
+  <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+</button>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col" [sortable]="head.key" *ngFor="let head of tableConfig.headers" (sort)="onSort($event)">{{head.key}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of filterData | pagination:pageinator.currentPage:perpage">
+    <td *ngFor="let head of tableConfig.headers">{{convertDate(item[head.key])}}</td>
+    <td *ngFor="let action of tableConfig.actions">
+      <button mat-button (click)="emitRowAction(action.toString(), item)">
+        <mat-icon *ngIf="action.toString()=='EDIT'" aria-hidden="false" aria-label="create">create</mat-icon>
+        <mat-icon *ngIf="action.toString()=='DELETE'" aria-hidden="false" aria-label="delete">delete</mat-icon>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<app-paginate [page]="data.length" #pageinator [objectperpage]="tableConfig.pagination.itemPerPage" [options]="tableConfig.pagination.itemPerPageOptions" (getobjectperpagechange)="changeTable($event)"></app-paginate>

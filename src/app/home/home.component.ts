@@ -1,6 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {MyButtonConfig} from '../my-button/my-button.component';
-import {MyHeaders, MyOrder, MyPagination, MySearch, MyTableActionEnum, MyTableConfig} from '../my-table/my-table.component';
+import {
+  MyHeaders,
+  MyOrder,
+  MyPagination,
+  MySearch,
+  MyTableActionEnum,
+  MyTableConfig
+} from '../mytablenotmaterial/mytablenotmaterial.component';
 
 export class User {
   constructor(name: string, surname: string, username: string, birthday: Date, id: number) {
@@ -34,15 +41,15 @@ export class HomeComponent implements OnInit {
                           new MyHeaders("username", "username"), new MyHeaders("birthday", "birthday"), new MyHeaders("id", "id")]
 
   order: MyOrder = {
-    'defaultColumn' : 'surname',
-    'orderType' : 'asc'
+    'defaultColumn' : 'id',
+    'orderType' : 'desc'
   }
   search: MySearch = {
     'columns' : ['surname', 'name']
   }
   pagination: MyPagination = {
-    'itemPerPage' : 5,
-    'itemPerPageOptions' : []
+    'itemPerPage' : 1,
+    'itemPerPageOptions' : [1,2,3]
   }
   tableConfig: MyTableConfig = {
     'headers': this.headers,

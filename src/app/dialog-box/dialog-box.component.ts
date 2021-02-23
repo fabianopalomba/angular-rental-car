@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DataPropertyGetterPipe} from '../my-table/my-table.component';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-dialog-box',
@@ -36,5 +35,8 @@ export class DialogBoxComponent {
   closeDialog(){
     this.dialogRef.close({event:'Cancel'});
   }
-
+  convertDate(any){
+    if (any instanceof Date) return any.toLocaleDateString()
+    else return any;
+  }
 }

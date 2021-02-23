@@ -3,7 +3,7 @@
 <div mat-dialog-content *ngIf="action != 'DELETE'">
     <mat-form-field *ngFor="let a of local_data | keyvalue">
       <label>
-        <input [formControlName]="a.key" [placeholder]="action + ' ' + a.key" matInput [ngModel]="local_data[a.key]">
+        <input [formControlName]="a.key" [placeholder]="action + ' ' + a.key" matInput [ngModel]="convertDate(local_data[a.key])">
       </label>
     </mat-form-field>
 </div>
