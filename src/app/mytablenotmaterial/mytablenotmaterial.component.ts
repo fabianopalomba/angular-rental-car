@@ -6,17 +6,18 @@ import {
   Output,
   QueryList,
   ViewChildren,
-  EventEmitter, AfterViewInit, ChangeDetectorRef, PipeTransform
+  EventEmitter, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import {DialogBoxComponent} from '../dialog-box/dialog-box.component';
 import {MatDialog} from '@angular/material/dialog';
+import {MyButtonConfig} from '../my-button/my-button.component';
 
 export class MyTableConfig {
   headers : MyHeaders [];
   order : MyOrder ;
   search : MySearch ;
   pagination : MyPagination ;
-  actions : MyTableActionEnum [];
+  actions : MyButtonConfig [];
   }
 export enum MyTableActionEnum {
   NEW_ROW= 'NEWROW', EDIT='EDIT', DELETE='DELETE'
@@ -43,7 +44,6 @@ export class MyHeaders {
     this.key = key;
     this.label = label;
   }
-
 }
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
@@ -87,7 +87,7 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
   public filterData;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
-  perpage; dato;
+  perpage; dato; indexnewrow;
   constructor(private cdRef: ChangeDetectorRef, public dialog: MatDialog) {}
 
   ngOnInit() {
@@ -95,14 +95,17 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
     if (this.tableConfig.actions.length > 0){
       this.displayedColumns = [...columnNames]
       for (let action of this.tableConfig.actions) {
-        if (action != MyTableActionEnum.NEW_ROW) this.displayedColumns.push(action)
+        if (action.type != MyTableActionEnum.NEW_ROW) {
+          this.indexnewrow = this.tableConfig.actions[this.tableConfig.actions.findIndex((item)=>item.type == MyTableActionEnum.NEW_ROW)]
+          this.displayedColumns.push(action.text)
+        }
         else {
           this.newrow = true;
         }
       }
     }
     else this.displayedColumns = columnNames;
-    if (this.newrow==true) this.tableConfig.actions.splice(this.tableConfig.actions.indexOf(MyTableActionEnum.NEW_ROW),1)
+    if (this.newrow==true) this.tableConfig.actions.splice(this.indexnewrow,1)
     this.filterData = this.data;
     this.perpage = this.tableConfig.pagination.itemPerPage;
     this.dato = Object.create(this.data[0]);
@@ -172,7 +175,6 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
     });
     dialogRef.afterClosed().subscribe(result => {
       this.rowAction.emit({data: result.data, event: result.event})
-      console.log(result)
     });
   }
 }

@@ -1,5 +1,5 @@
 <div style="margin: 20px">
-  <a *ngFor="let el of pages" [ngClass]="{'active' : active == el}" (click)="active = el" > {{el}}</a>
+  <a *ngFor="let el of pages" [ngClass]="{'active' : active == el}" (click)="active = el" > {{el+1}}</a>
   Item per page:
   <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" (change)="onChange($event)">
     <option selected disabled>Select</option>

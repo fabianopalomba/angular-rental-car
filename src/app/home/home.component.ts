@@ -29,10 +29,23 @@ export class User {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  textBtnConfig: MyButtonConfig = {
-    'customCssClass': "width: '150px',height: '60px',backgroundColor: '#f92672'",
-    'text': 'Click here',
-    'icon' : null
+  btnnewrow: MyButtonConfig = {
+    customCssClass: null,
+    text: null,
+    icon : 'add',
+    type: MyTableActionEnum.NEW_ROW
+  }
+  btnedit: MyButtonConfig = {
+    customCssClass: null,
+    text: 'edit',
+    icon : null,
+    type: MyTableActionEnum.EDIT
+  }
+  btndelete: MyButtonConfig = {
+    customCssClass: null,
+    text: null,
+    icon : 'delete',
+    type: MyTableActionEnum.DELETE
   }
 
   data: User[] = [new User("fab", "palo", "fegh", new Date(1995, 3,6),3), new User("gab", "balo", "legh", new Date(1995,4,7), 2)];
@@ -56,7 +69,7 @@ export class HomeComponent implements OnInit {
     'order': this.order,
     'search': this.search,
     'pagination': this.pagination,
-    'actions': [MyTableActionEnum.NEW_ROW, MyTableActionEnum.EDIT, MyTableActionEnum.DELETE],
+    'actions': [this.btnnewrow,this.btnedit,this.btndelete]
   }
 
   constructor() { }

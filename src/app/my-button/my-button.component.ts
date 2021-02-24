@@ -1,9 +1,11 @@
 import {Component, Input} from '@angular/core';
+import {MyTableActionEnum} from '../mytablenotmaterial/mytablenotmaterial.component';
 
 export class MyButtonConfig {
-  customCssClass: string;
+  customCssClass;
   text: string;
   icon: string;
+  type: MyTableActionEnum;
 }
 
 @Component({

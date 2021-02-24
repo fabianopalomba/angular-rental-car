@@ -1,5 +1,5 @@
-<button type="button" [style]="buttonConfig.customCssClass">
-  <i [ngClass]="buttonConfig.icon"></i>
-  {{buttonConfig.text}}
+<button type="button" [ngStyle]="buttonConfig.customCssClass">
+  <mat-icon *ngIf="buttonConfig.icon!=null" [ngClass]="buttonConfig.icon">{{buttonConfig.icon}}</mat-icon>
+  <a *ngIf="buttonConfig.text!=null">{{buttonConfig.text}}</a>
 </button>
 
