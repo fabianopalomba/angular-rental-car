@@ -5,7 +5,7 @@ export class MyButtonConfig {
   customCssClass;
   text: string;
   icon: string;
-  type: MyTableActionEnum;
+  type?: MyTableActionEnum;
 }
 
 @Component({
