@@ -1,20 +1,29 @@
-<input placeholder="Search..." (keyup)="applyFilter($event)" />
-<app-my-button *ngIf="newrow==true" [buttonConfig]="indexnewrow" (click)="emitRowAction('ADD',dato)">
-</app-my-button>
+<div>
+  <span *ngIf="tableConfig.search.columns.length>0">
+    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchcolumn">
+      <option *ngFor="let a of tableConfig.search.columns" [value]="a">{{a}}</option>
+    </select>
+    <input placeholder="Search..." (keyup)="applyFilter($event)" />
+  </span>
+  <app-my-button *ngIf="newrow==true" [buttonConfig]="indexnewrow.button" (click)="emitRowAction('ADD',dato)">
+  </app-my-button>
+</div>
+<div *ngIf="data!=undefined">
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col" [sortable]="head.key" *ngFor="let head of tableConfig.headers" (sort)="onSort($event)">{{head.key}}</th>
+      <th scope="col" [sortable]="head.key" *ngFor="let head of tableConfig.headers" (sort)="onSort($event)">{{head.label}}</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="filterData!=undefined">
     <tr *ngFor="let item of filterData | pagination:pageinator.currentPage:perpage">
       <td *ngFor="let head of tableConfig.headers">{{convertDate(item[head.key])}}</td>
       <td *ngFor="let action of tableConfig.actions">
-        <app-my-button [buttonConfig]="action" (click)="emitRowAction(action.type, item)">
+        <app-my-button [buttonConfig]="action.button" (click)="emitRowAction(action.action, item)">
         </app-my-button>
       </td>
     </tr>
   </tbody>
 </table>
 <app-paginate [page]="data.length" #pageinator [objectperpage]="tableConfig.pagination.itemPerPage" [options]="tableConfig.pagination.itemPerPageOptions" (getobjectperpagechange)="changeTable($event)"></app-paginate>
+</div>

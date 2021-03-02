@@ -1,0 +1,61 @@
+<div *ngIf="isSignedUp">
+  Your registration is successful.
+</div>
+
+<div *ngIf="logged &&!isSignedUp">
+  <h1 *ngIf="edit">Modifica i tuoi dati</h1>
+  <h1 *ngIf="!edit">Aggiungi un utente</h1>
+  <div class="row col-sm-6" style="max-width:350px;">
+    <form class="form" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <h1 class="h3 mb-3 font-weight-normal" *ngIf="!edit">Registra un utente</h1>
+      <h1 class="h3 mb-3 font-weight-normal" *ngIf="edit">Modifica i tuoi dati</h1>
+      <div class="form-group">
+        <label for="name" class="sr-only">Nome</label>
+        <input type="text" placeholder="Nome"  class="form-control" id="name" name="name" [(ngModel)]="form.name" #name="ngModel" required />
+        <div *ngIf="f.submitted && name.invalid">
+          <div *ngIf="name.errors.required">Name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="surname" class="sr-only">Cognome</label>
+        <input type="text" placeholder="Cognome" class="form-control" id="surname" name="surname" [(ngModel)]="form.surname" #surname="ngModel" required />
+        <div *ngIf="f.submitted && surname.invalid">
+          <div *ngIf="surname.errors.required">Surname is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" class="form-control" id="username" name="username" [(ngModel)]="form.username" #username="ngModel"
+               required placeholder="Username" [disabled]="edit"/>
+        <div *ngIf="f.submitted && username.invalid">
+          <div *ngIf="username.errors.required">Username is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Birthday date</mat-label>
+          <input class="form-control" id="birthday" [(ngModel)]="form.birthday" name="birthday" matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" placeholder="Password" class="form-control" id="password" name="password" [(ngModel)]="form.password" #password="ngModel"
+               required minlength="6" />
+        <div *ngIf="f.submitted && password.invalid">
+          <div *ngIf="password.errors.required">Password is required</div>
+          <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-dark" >Salva i tuoi dati</button>
+        <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
+          Signup failed!<br/>{{errorMessage}}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

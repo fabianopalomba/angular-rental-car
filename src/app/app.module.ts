@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MyButtonComponent } from './my-button/my-button.component';
@@ -12,7 +11,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatInputModule} from '@angular/material/input';
-import {DatePipe} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -21,6 +19,16 @@ import {MytablenotmaterialComponent, NgbdSortableHeader} from './mytablenotmater
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PaginationPipe} from './paginate/pagination.pipe';
 import {PaginateComponent} from './paginate/paginate.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LoginComponent } from './login/login.component';
+import {httpInterceptorProviders} from './services/data/auth/auth-interceptor';
+import {HttpClientModule} from '@angular/common/http';
+import { RegisterComponent } from './register/register.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { CarlistComponent } from './carlist/carlist.component';
+import { CaraddComponent } from './caradd/caradd.component';
+import { BookingaddComponent } from './bookingadd/bookingadd.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +41,12 @@ import {PaginateComponent} from './paginate/paginate.component';
     PaginationPipe,
     PaginateComponent,
     PaginateComponent,
+    NavbarComponent,
+    LoginComponent,
+    RegisterComponent,
+    CarlistComponent,
+    CaraddComponent,
+    BookingaddComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,9 +62,12 @@ import {PaginateComponent} from './paginate/paginate.component';
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [DatePipe],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

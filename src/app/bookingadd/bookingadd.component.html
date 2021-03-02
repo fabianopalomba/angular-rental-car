@@ -1,0 +1,31 @@
+<h1 *ngIf="edit">Modifica la tua prenotazione</h1>
+<h1 *ngIf="!edit">Effettua una prenotazione</h1>
+<form class="form" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Data iniziale (mm/GG/aaaa)</mat-label>
+      <input class="form-control" id="initialDate" [(ngModel)]="form.initialDate" name="initialDate" matInput [matDatepicker]="initialDate" [disabled]="datesaved" >
+      <mat-datepicker-toggle matSuffix [for]="initialDate"></mat-datepicker-toggle>
+      <mat-datepicker #initialDate></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Data finale (mm/GG/aaaa)</mat-label>
+      <input class="form-control" id="finalDate" [(ngModel)]="form.finalDate" name="finalDate" matInput [matDatepicker]="finalDate" [disabled]="datesaved">
+      <mat-datepicker-toggle matSuffix [for]="finalDate"></mat-datepicker-toggle>
+      <mat-datepicker #finalDate></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <select class="form-select" aria-label="Default select example" id="car" [(ngModel)]="form.car" name="car" *ngIf="datesaved">
+      <option *ngFor="let a of carlist" [value]="a.targa">{{a.brand}} {{a.model}} {{a.year}}</option>
+    </select>
+  </div>
+  <div class="form-group" *ngIf="!datesaved">
+    <button class="btn btn-dark" >Visualizza auto disponibili</button>
+  </div>
+</form>
+<div class="form-group" *ngIf="datesaved && this.form.car!=null">
+  <button class="btn btn-dark" (click)="addBooking()">Richiedi prenotazione</button>
+</div>

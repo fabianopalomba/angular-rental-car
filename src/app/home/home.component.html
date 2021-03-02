@@ -1,1 +1,10 @@
-<app-mytablenotmaterial [tableConfig]="tableConfig" [data]="data"></app-mytablenotmaterial>
+<div *ngIf="isAdmin">
+  <h1>Tutti i customers</h1>
+  <app-mytablenotmaterial [tableConfig]="tableConfigusers" [data]="usersdata" (rowAction)="actionfromtable($event)"></app-mytablenotmaterial>
+  <h1>Tutte le prenotazioni</h1>
+  <app-mytablenotmaterial [tableConfig]="tableConfigbookings" [data]="bookingsdata" (rowAction)="actionfromtable($event)"></app-mytablenotmaterial>
+</div>
+<div *ngIf="!isAdmin && isLoggedIn && isCustomer">
+  <h1>Le tue prenotazioni</h1>
+  <app-mytablenotmaterial [tableConfig]="tableConfiguserbookings" [data]="bookingsuser" (rowAction)="actionfromtable($event)"></app-mytablenotmaterial>
+</div>

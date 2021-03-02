@@ -17,10 +17,14 @@ export class MyTableConfig {
   order : MyOrder ;
   search : MySearch ;
   pagination : MyPagination ;
-  actions : MyButtonConfig [];
+  actions : MyAction [];
   }
 export enum MyTableActionEnum {
   NEW_ROW= 'NEWROW', EDIT='EDIT', DELETE='DELETE'
+}
+export class MyAction{
+  action : MyTableActionEnum;
+  button: MyButtonConfig;
 }
 export class MyPagination {
   itemPerPage : number ;
@@ -87,7 +91,7 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
   public filterData;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
-  perpage; dato; indexnewrow;
+  perpage; dato; indexnewrow; searchcolumn;
   constructor(private cdRef: ChangeDetectorRef, public dialog: MatDialog) {}
 
   ngOnInit() {
@@ -95,9 +99,9 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
     if (this.tableConfig.actions.length > 0){
       this.displayedColumns = [...columnNames]
       for (let action of this.tableConfig.actions) {
-        if (action.type != MyTableActionEnum.NEW_ROW) {
-          this.indexnewrow = this.tableConfig.actions[this.tableConfig.actions.findIndex((item)=>item.type == MyTableActionEnum.NEW_ROW)]
-          this.displayedColumns.push(action.text)
+        if (action.action != MyTableActionEnum.NEW_ROW) {
+          this.indexnewrow = this.tableConfig.actions[this.tableConfig.actions.findIndex((item)=>item.action == MyTableActionEnum.NEW_ROW)]
+          this.displayedColumns.push(action.button.text)
         }
         else {
           this.newrow = true;
@@ -108,13 +112,10 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
     if (this.newrow==true) this.tableConfig.actions.splice(this.indexnewrow,1)
     this.filterData = this.data;
     this.perpage = this.tableConfig.pagination.itemPerPage;
-    this.dato = Object.create(this.data[0]);
-    Object.keys(this.data[0]).map((key)=>{
-      this.dato[key] = "";
-    })
   }
 
   ngAfterViewInit() {
+    if(this.filterData!=undefined)
     this.onSort(<SortEvent>{column: this.tableConfig.order.defaultColumn, direction: (this.tableConfig.order.orderType)})
     this.cdRef.detectChanges();
   }
@@ -149,6 +150,10 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
           let filter = this.filterValue.trim().toLowerCase();
           this.filterData = this.data.filter(
             x=> {
+              if (x[this.searchcolumn].toString().toLowerCase().includes(filter))
+                return true
+              else return false
+              /*
               let bool = false;
               if (this.tableConfig.search.columns.length != 0) {
                 for (let columno of this.tableConfig.search.columns) {
@@ -157,6 +162,7 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
                 }
                 return bool;
               } else return true;
+*/
             })
         }
   }
@@ -166,15 +172,6 @@ export class MytablenotmaterialComponent implements OnInit, AfterViewInit{
   }
 
   emitRowAction(action: string, row: any) {
-    const dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '250px',
-      data: {
-        dati: row,
-        action: action
-      },
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.rowAction.emit({data: result.data, event: result.event})
-    });
+      this.rowAction.emit({/*data: result.data, event: result.event*/action, row})
   }
 }

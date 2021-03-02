@@ -1,0 +1,34 @@
+<div *ngIf="isLoggedIn; else loggedOut">
+  <meta http-equiv="refresh" content="1;URL=http://localhost:4200/home">
+</div>
+<ng-template #loggedOut>
+  <div class="row col-sm-6" style="max-width:350px;">
+    <form class="form-signin" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <div class="form-group">
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" class="form-control" id="username" name="username" [(ngModel)]="form.username" #username="ngModel"
+               required placeholder="Username" autofocus=""/>
+        <div *ngIf="f.submitted && username.invalid">
+          <div *ngIf="username.errors.required">Username is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="form.password" #password="ngModel"
+               required minlength="6" placeholder="Password" autofocus="" />
+        <div *ngIf="f.submitted && password.invalid">
+          <div *ngIf="password.errors.required">Password is required</div>
+          <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-dark" type="submit">Sign in</button>
+        <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger">
+          Login failed: {{errorMessage}}
+        </div>
+      </div>
+    </form>
+    <hr />
+  </div>
+</ng-template>

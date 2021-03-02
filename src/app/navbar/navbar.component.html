@@ -1,0 +1,30 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Rental Car</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto" routerLinkActive="active">
+        <li class="nav-item" *ngIf="authority === undefined">
+          <a class="nav-link" routerLink="login" >Login</a>
+        </li>
+        <li class="nav-item" *ngIf="authority != undefined">
+          <a class="nav-link" routerLink="home" >Home</a>
+        </li>
+        <li class="nav-item" *ngIf="authority != undefined">
+          <a class="nav-link" routerLink="cars" >Parco Auto</a>
+        </li>
+        <li class="nav-item" *ngIf="authority != undefined">
+          <a class="nav-link" routerLink="user">Profilo Utente</a>
+        </li>
+        <li class="nav-item" *ngIf="authority === 'customer'">
+          <a class="nav-link" routerLink="addbooking">Prenota ora</a>
+        </li>
+        <li class="nav-item" *ngIf="authority != undefined">
+          <a class="nav-link" href = "" (click)="tokenStorageService.signOut()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,4 @@
+<div *ngIf="charged && this.data.length!=0">
+  <h1>Tutte le Auto</h1>
+  <app-mytablenotmaterial [tableConfig]="tableConfig" [data]="data" (rowAction)="actionfromtable($event)"></app-mytablenotmaterial>
+</div>

@@ -1,0 +1,44 @@
+<div *ngIf="isSignedUp">
+  Your registration is successful.
+</div>
+
+<div *ngIf="!isSignedUp && isAdmin">
+  <div class="row col-sm-6" style="max-width:350px;">
+    <form class="form" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <h1 class="h3 mb-3 font-weight-normal" *ngIf="!edit">Aggiungi un'auto</h1>
+      <h1 class="h3 mb-3 font-weight-normal" *ngIf="edit">Modifica i tuoi dati</h1>
+      <div class="form-group">
+        <label for="targa" class="sr-only">Targa</label>
+        <input type="text" placeholder="targa"  class="form-control" id="targa" name="targa" [(ngModel)]="form.targa" #targa="ngModel" required [disabled]="edit"/>
+      </div>
+      <div class="form-group">
+        <label for="brand" class="sr-only">Brand</label>
+        <input type="text" placeholder="brand" class="form-control" id="brand" name="brand" [(ngModel)]="form.brand" #brand="ngModel" required />
+      </div>
+
+      <div class="form-group">
+        <label for="model" class="sr-only">Model</label>
+        <input type="text" class="form-control" id="model" name="model" [(ngModel)]="form.model" #model="ngModel"
+               required placeholder="model" />
+      </div>
+      <div class="form-group">
+        <label for="year" class="sr-only">Year</label>
+        <input type="number" placeholder="year" class="form-control" id="year" name="year" [(ngModel)]="form.year" #year="ngModel"
+               required minlength="6" />
+      </div>
+      <div class="form-group">
+        <label for="carType" class="sr-only">Car Type</label>
+        <select class="form-select" aria-label="Default select example" name="carType" id="carType" [(ngModel)]="form.carType.id" #cartype="ngModel">
+          <option *ngFor="let a of cartypes" [value]="a.id">{{a.carTypeName}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-dark" >Salva i tuoi dati</button>
+        <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
+          Signup failed!<br/>{{errorMessage}}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
