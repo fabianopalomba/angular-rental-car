@@ -1,7 +1,7 @@
 <div>
   <span *ngIf="tableConfig.search.columns.length>0">
-    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchcolumn">
-      <option *ngFor="let a of tableConfig.search.columns" [value]="a">{{a}}</option>
+    <select class="form-select" [(ngModel)]="searchcolumn">
+      <option *ngFor="let a of tableConfig.search.columns" [value]="a.key">{{a.label}}</option>
     </select>
     <input placeholder="Search..." (keyup)="applyFilter($event)" />
   </span>

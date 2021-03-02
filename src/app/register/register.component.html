@@ -3,8 +3,6 @@
 </div>
 
 <div *ngIf="logged &&!isSignedUp">
-  <h1 *ngIf="edit">Modifica i tuoi dati</h1>
-  <h1 *ngIf="!edit">Aggiungi un utente</h1>
   <div class="row col-sm-6" style="max-width:350px;">
     <form class="form" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
       <h1 class="h3 mb-3 font-weight-normal" *ngIf="!edit">Registra un utente</h1>
@@ -23,7 +21,6 @@
           <div *ngIf="surname.errors.required">Surname is required</div>
         </div>
       </div>
-
       <div class="form-group">
         <label for="username" class="sr-only">Username</label>
         <input type="text" class="form-control" id="username" name="username" [(ngModel)]="form.username" #username="ngModel"

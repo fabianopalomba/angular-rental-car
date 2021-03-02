@@ -37,7 +37,7 @@ export class MyOrder {
   }
 
 export class MySearch {
-  columns: string [];
+  columns: MyHeaders [];
 }
 
 export class MyHeaders {

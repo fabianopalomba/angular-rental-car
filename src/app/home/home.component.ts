@@ -60,14 +60,17 @@ export class HomeComponent implements OnInit {
     'orderType' : 'asc'
   }
   search: MySearch = {
-    'columns' : ['surname', 'name', 'username']
+    'columns' : [new MyHeaders("id", "Id"), new MyHeaders("name", "Nome"), new MyHeaders("surname", "Cognome"),
+      new MyHeaders("username", "Username")]
   }
   searchbooking: MySearch = {
-    'columns' : ["id", "car","user","initialDate","finalDate"]
+    'columns' : [new MyHeaders("id", "id"), new MyHeaders("car", "Auto"), new MyHeaders("user", "User"),
+      new MyHeaders("initialDate", "Data Iniziale"), new MyHeaders("finalDate", "Data Finale")]
   }
 
   searchbookinguser: MySearch = {
-    'columns' : ["id", "brand","model","initialDate","finalDate"]
+    'columns' : [new MyHeaders("id", "id"), new MyHeaders("brand", "Brand Auto"),new MyHeaders("model", "Modello"),
+      new MyHeaders("initialDate", "Data Iniziale"), new MyHeaders("finalDate", "Data Finale")]
   }
 
   pagination: MyPagination = {

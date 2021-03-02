@@ -46,7 +46,8 @@ export class CarlistComponent implements OnInit {
     'orderType' : 'asc'
   }
   search: MySearch = {
-    'columns' : ['targa', 'brand', 'model']
+    'columns' : [new MyHeaders("targa", "Targa"), new MyHeaders("brand", "Brand"), new MyHeaders("model", "Modello"),
+      new MyHeaders("year", "Anno")]
   }
   pagination: MyPagination = {
     'itemPerPage' : 5,
