@@ -29,6 +29,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { CarlistComponent } from './carlist/carlist.component';
 import { CaraddComponent } from './caradd/caradd.component';
 import { BookingaddComponent } from './bookingadd/bookingadd.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { BookingaddComponent } from './bookingadd/bookingadd.component';
     CarlistComponent,
     CaraddComponent,
     BookingaddComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

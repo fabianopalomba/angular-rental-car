@@ -8,3 +8,6 @@
   <h1>Le tue prenotazioni</h1>
   <app-mytablenotmaterial [tableConfig]="tableConfiguserbookings" [data]="bookingsuser" (rowAction)="actionfromtable($event)"></app-mytablenotmaterial>
 </div>
+<app-notification #duegiorni aria-live="polite" aria-atomic="true" text="Non puoi modificare/eliminare una prenotazione che avverrà tra meno di due giorni" title="Errore"></app-notification>
+<app-notification #confermaeliminazione aria-live="polite" aria-atomic="true" text="Vuoi davvero eliminare questa prenotazione?" title="Elimina Prenotazione" [config]="btnnewrow.button" (answer)="answerfromnotification($event)"></app-notification>
+

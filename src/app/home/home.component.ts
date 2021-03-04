@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MyButtonConfig} from '../my-button/my-button.component';
 import {
   MyAction,
@@ -14,6 +14,7 @@ import {UserService} from '../services/data/user.service';
 import {User} from '../services/data/auth/user';
 import {BookingService} from '../services/data/booking.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NotificationComponent} from '../notification/notification.component';
 
 @Component({
   selector: 'app-home',
@@ -74,7 +75,7 @@ export class HomeComponent implements OnInit {
   }
 
   pagination: MyPagination = {
-    'itemPerPage' : 2,
+    'itemPerPage' : 5,
     'itemPerPageOptions' : [1,2,3]
   }
   tableConfigusers: MyTableConfig = {
@@ -99,10 +100,14 @@ export class HomeComponent implements OnInit {
     'pagination': this.pagination,
     'actions': [this.btnnewrow, this.btnedit, this.btndelete]
   }
+  private boolean: boolean;
 
   constructor(private tokenStorageService:TokenStorageService, private userService:UserService, private bookingService:BookingService, private router:Router) { }
 
   isLoggedIn = false; isAdmin = false; usersdata; bookingsdata; action; bookingsuser; isCustomer=false;
+  @ViewChild('duegiorni')duegiorni:NotificationComponent;
+  @ViewChild('confermaeliminazione')confermaeliminazione:NotificationComponent;
+
 
   ngOnInit() {
     if(this.tokenStorageService.getToken() != undefined) {
@@ -145,52 +150,55 @@ export class HomeComponent implements OnInit {
       }
     }
 
-    actionfromtable(result){
-    if (result.action == "ADD"){
-      this.router.navigateByUrl("signup");
-    }
-      if (result.action == 'EDIT' && result.row.approved!= undefined && this.isAdmin==true){
+    actionfromtable(result) {
+      if (result.action == "ADD") {
+        this.router.navigateByUrl("signup");
+      }
+      if (result.action == 'EDIT' && result.row.approved != undefined && this.isAdmin == true) {
         result.row.approved = !result.row.approved;
-        this.bookingService.editbooking(result.row).subscribe(res=>{
+        this.bookingService.editbooking(result.row).subscribe(res => {
           window.location.reload();
-        })}
-      if (result.action == 'EDIT' && result.row.approved!= undefined && this.isCustomer==true){
+        })
+      }
+      if (result.action == 'EDIT' && result.row.approved != undefined && this.isCustomer == true) {
         let now = new Date();
-        now.setDate( now.getDate() + 2);
+        now.setDate(now.getDate() + 2);
         let initialdate = new Date(result.row.initialDate);
         // @ts-ignore
-        let difference = (now.getTime() - initialdate.getTime())/(1000*60*60*24);
-        if (difference < 2 && difference > 0){
-          alert("Non puoi modificare una prenotazione che inizia tra meno di due giorni")
-        }
-        else this.router.navigateByUrl("editbooking/" + result.row.id);
+        let difference = (now.getTime() - initialdate.getTime()) / (1000 * 60 * 60 * 24);
+        if (difference > 0) {
+          this.duegiorni.open()
+        } else this.router.navigateByUrl("editbooking/" + result.row.id);
       }
-      if (result.action=="EDIT" && result.row.birthday!= undefined){
-        this.router.navigateByUrl("edituser/"+result.row.id);
+      if (result.action == "EDIT" && result.row.birthday != undefined) {
+        this.router.navigateByUrl("edituser/" + result.row.id);
       }
-        if (result.action == "DELETE" && result.row.birthday!= undefined){
-        if(!(confirm('Sei sicuro di eliminare il tuo account?'))){
+      if (result.action == "DELETE" && result.row.birthday != undefined) {
+        if (!(confirm('Sei sicuro di eliminare il tuo account?'))) {
           return false
-        }
-        else {
-          this.userService.deleteuserbyid(result.row.id).subscribe(res=>window.location.reload());
+        } else {
+          this.userService.deleteuserbyid(result.row.id).subscribe(res => window.location.reload());
         }
       }
-      if (result.action == "DELETE" && result.row.approved!= undefined){
-          let now = new Date();
-          now.setDate( now.getDate() + 2);
-          let initialdate = new Date(result.row.initialDate);
-          // @ts-ignore
-          let difference = (now.getTime() - initialdate.getTime())/(1000*60*60*24);
-          if (difference < 2 && difference > 0){
-            alert("Non puoi eliminare una prenotazione che inizia tra meno di due giorni")
-          }
-          else {
-            if(!(confirm('Sei sicuro di eliminare la prenotazione numero '+result.row.id + '?'))){
-              return false
+      if (result.action == "DELETE" && result.row.approved != undefined) {
+        let now = new Date();
+        now.setDate(now.getDate() + 2);
+        let initialdate = new Date(result.row.initialDate);
+        // @ts-ignore
+        let difference = (now.getTime() - initialdate.getTime()) / (1000 * 60 * 60 * 24);
+        if (difference > 0) {
+          this.duegiorni.open()
+        } else {
+          this.confermaeliminazione.open()
+          this.confermaeliminazione.answer.subscribe(res=>{
+            if(res==true){
+              this.bookingService.deletebookingbyid(result.row.id).subscribe(res=>window.location.reload());
             }
-            else this.bookingService.deletebookingbyid(result.row.id).subscribe(res=>window.location.reload());
+          })
           }
         }
+      }
+    answerfromnotification(value){
+      this.boolean = value;
     }
 }

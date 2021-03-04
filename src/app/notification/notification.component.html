@@ -1,0 +1,9 @@
+<ngb-toast *ngIf="show && config!=undefined" [header]="title" [autohide]="false" (hidden)="close()">
+{{text}}
+  <hr>
+  <button class="btn-dark" (click)="confirm()">Conferma</button>
+  <button class="btn-secondary" (click)="close()">Annulla</button>
+</ngb-toast>
+<ngb-toast *ngIf="show && config==undefined" [header]="title" [autohide]="false" (hidden)="close()">
+  {{text}}
+</ngb-toast>
